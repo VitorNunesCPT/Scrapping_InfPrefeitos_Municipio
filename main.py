@@ -2,7 +2,7 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
 import time
-
+import pandas as pd
 
 option = webdriver.ChromeOptions()
 
@@ -48,5 +48,12 @@ for value in cidade_list:
         aniversario_element = prefeito_dados.find('span', string='Aniversário Prefeito:')
         if aniversario_element:
             aniversario_prefeito = aniversario_element.find_next_sibling(text=True)
+    data.append([nome_municipio, nome_prefeito, aniversario_prefeito])
     print("Nome do Prefeito:", nome_prefeito)
     print("Aniversário do Prefeito:", aniversario_prefeito)
+
+df = pd.DataFrame(data, columns=['Nome Município', 'Nome Prefeito', 'Aniversário Prefeito'])
+
+df.to_csv('informacoes_prefeitos.csv', index=False)
+
+print("Arquivo CSV salvo com sucesso!")
